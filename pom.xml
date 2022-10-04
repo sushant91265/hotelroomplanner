@@ -11,8 +11,9 @@
   <name>hotelroomplanner</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <jackson.version>2.13.4</jackson.version>
   </properties>
 
   <dependencies>
@@ -22,6 +23,42 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${jackson.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+      <version>${jackson.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.24</version>
+      <scope>provided</scope>
+  </dependency>  
   </dependencies>
 
   <build>
@@ -47,7 +84,39 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>3.3.0</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>lib/</classpathPrefix>
+                <mainClass>com.thoughtworks.App</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.3.0</version>
+          <configuration>
+              <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <archive>
+                  <manifest>
+                      <mainClass>com.thoughtworks.App</mainClass>
+                  </manifest>
+              </archive>
+          </configuration>
+          <executions>
+              <execution>
+                  <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                  <phase>package</phase> <!-- bind to the packaging phase -->
+                  <goals>
+                      <goal>single</goal>
+                  </goals>
+              </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
