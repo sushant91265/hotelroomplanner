@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class Reservation {
+    
     private int reservationId;
     private int roomType;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-d")
@@ -18,4 +19,4 @@ public class Reservation {
     public boolean isRoomBookingOverlapping(Reservation reservation) {
         return this.startDate.isBefore(reservation.endDate) && this.endDate.isAfter(reservation.startDate);
     }
-}
+ }
