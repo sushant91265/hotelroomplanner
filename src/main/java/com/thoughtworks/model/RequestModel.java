@@ -4,13 +4,18 @@ import java.util.List;
 
 import lombok.Data;
 
+/* 
+ * Model class for input request, modeling the input json file structure.
+ */
 @Data
 public class RequestModel {
     private List<Integer> roomTypes;
     private List<Room> rooms;
     private List<Reservation> reservations;
 
-    // sort reservations by start date & end date
+    /* 
+     * Sort reservations based on start and end dates. 
+     */
     public void sortReservations() {
         reservations.sort((r1, r2) -> {
             if (r1.getStartDate().isBefore(r2.getStartDate())) {
