@@ -17,28 +17,21 @@ public class Room {
     private int roomType;
     
     @JsonIgnore
-    private List<Integer> reservations = new ArrayList<>();
-    /*
-     * Get the number of reservations for the room.
-     * @return number of reservations
-     */
-    public List<Integer> getReservations() {
-        return reservations;
-    }
-
+    private List<Reservation> reservations = new ArrayList<>();
+    
     /*
      * Add a reservation to the room.
-     * @param reservationId to be added 
+     * @param reservation to be added 
      */
-    public void addReservation(int reservationId) {
-        reservations.add(reservationId);
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
     }
 
     /*
-     * Get the latest or last reservationId for the room.
-     * @return reservationId
+     * Get the latest reservation for the room.
+     * @return reservation object
      */
-    public int getLatestReservationId() {
+    public Reservation getLatestReservation() {
         return reservations.get(reservations.size() - 1);
     }
 }

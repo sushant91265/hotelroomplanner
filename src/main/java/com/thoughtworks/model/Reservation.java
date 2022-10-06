@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class Reservation {
+public class Reservation implements Comparable<Reservation> {
     
     private int reservationId;
     private int roomType;
@@ -20,12 +20,20 @@ public class Reservation {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-d")
     private LocalDate endDate;
 
-    /*
-     * Method to check if the reservation is overlapping with other reservation dates.
-     * @param reservation to be checked
-     * @return boolean
-     */
-    public boolean isRoomBookingOverlapping(Reservation reservation) {
-        return this.startDate.isBefore(reservation.endDate) && this.endDate.isAfter(reservation.startDate);
-    }
+    @Override
+    public int compareTo(Reservation r2) {
+        if (this.getStartDate().isBefore(r2.getStartDate())) {
+            return -1;
+        } else if (this.getStartDate().isAfter(r2.getStartDate())) {
+            return 1;
+        } else {
+            if (this.getEndDate().isBefore(r2.getEndDate())) {
+                return -1;
+            } else if (this.getEndDate().isAfter(r2.getEndDate())) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    } 
  }

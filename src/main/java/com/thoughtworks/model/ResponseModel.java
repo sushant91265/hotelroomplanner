@@ -10,37 +10,24 @@ import java.util.Map;
  * ROOM ID <room_id>: [<reservation_id1>,<reservation_id2>, ...]
  */
 public class ResponseModel {
-    private Map<Integer, List<Integer>> bookings = new HashMap<>();
-    
-    /*
-     * Fill the bookings map for each room with an empty list of reservations.
-     * @param rooms list of rooms
-     * @return void
-     */
-    public void fillEmptyBookings(List<Room> rooms) {
-        rooms.forEach(room -> bookings.put(room.getId(), new ArrayList<>()));
-    }
+    private Map<Integer, List<Reservation>> bookings = new HashMap<>();
 
     /*
      * Add a reservation to the bookings map.
-     * @param reservationId to be added
+     * @param reservation to be added
      * @param roomId to be added
      * @return void
      */
-    public void addBooking(int roomId, int reservationId) {
-        bookings.get(roomId).add(reservationId);
+    public void addBooking(int roomId, Reservation reservation) {
+        bookings.computeIfAbsent(roomId, k -> new ArrayList<>()).add(reservation);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<Integer, List<Integer>> entry : bookings.entrySet()) {
-            sb.append("\nROOM ID ");
-            sb.append(entry.getKey());
-            sb.append(": ");
-            sb.append(entry.getValue());
-            sb.append("");
-        }
-        return sb.toString();
+    /*
+     * Get the list of reservations for a room.
+     * @param roomId to be searched
+     * @return list of reservations
+     */
+    public List<Reservation> getBookings(int id) {
+        return bookings.getOrDefault(id, new ArrayList<>());
     }
 }
