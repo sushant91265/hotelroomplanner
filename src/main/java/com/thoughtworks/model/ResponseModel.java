@@ -27,7 +27,15 @@ public class ResponseModel {
      * @param roomId to be searched
      * @return list of reservations
      */
-    public List<Reservation> getBookings(int id) {
-        return bookings.getOrDefault(id, new ArrayList<>());
+    public List<Reservation> getBooking(int roomId) {
+        return bookings.getOrDefault(roomId, new ArrayList<>());
+    }
+
+    /*
+     * Get all of the bookings.
+     * @return map of bookings
+     */
+    public Map<Integer, List<Reservation>> getAllBookings() {
+        return bookings;
     }
 }

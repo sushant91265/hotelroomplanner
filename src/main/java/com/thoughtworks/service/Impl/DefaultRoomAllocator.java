@@ -25,8 +25,8 @@ public class DefaultRoomAllocator implements RoomAllocator{
         List<Room> rooms = requestModel.getRooms();
         List<Reservation> reservations = requestModel.getReservations();
         ResponseModel responseModel = new ResponseModel();
+        
         for(Reservation reservation : reservations) {
-            
             rooms.stream().filter(r -> !reservation.isBooked() 
             && isSameRoomType(reservation, r) 
             && isRoomAvailable(r, reservation, reservations))

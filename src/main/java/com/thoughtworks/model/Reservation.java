@@ -35,5 +35,5 @@ public class Reservation implements Comparable<Reservation> {
                 return 0;
             }
         }
-    } 
+    }
  }
