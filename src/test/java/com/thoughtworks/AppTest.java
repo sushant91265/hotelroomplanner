@@ -37,7 +37,7 @@ public class AppTest
         System.out.println("\n***** Running Test****: " + name.getMethodName() + " *****");
         requestModel = App.parseFile(RESOURCE+name.getMethodName()+".json");
     }
-
+    
     @Test
     public void testHappyScenario() {
         Map<Integer, List<Integer>> expected = new HashMap<>();
@@ -98,6 +98,10 @@ public class AppTest
         Assert.assertEquals(expected, actualMap);
     }
 
+    /*
+     * No rooom allotement for a reservation where roomType is different or a room of 
+     * that type is not available.
+     */
     @Test
     public void testNoRoomAvailableForReservation()  {
         Map<Integer, List<Integer>> expected = new HashMap<>();
@@ -109,7 +113,11 @@ public class AppTest
         Map<Integer, List<Integer>> actualMap = convertToMap(actual);
         Assert.assertEquals(expected, actualMap);
     }
- 
+    
+    /*
+     * No room allotement for a reservation whose start date is earlier than second reservation
+     * but end date is not.
+     */
     @Test
     public void testNoRoomAvailableForReservationDate()  {
         Map<Integer, List<Integer>> expected = new HashMap<>();
@@ -122,6 +130,9 @@ public class AppTest
         Assert.assertEquals(expected, actualMap);
     }
 
+    /*
+     * No room available for all the reservations. 
+     */
     @Test
     public void testNegativeScenario()  {
         Map<Integer, List<Integer>> expected = new HashMap<>();

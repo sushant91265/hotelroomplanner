@@ -1,15 +1,16 @@
 ### Note: Please read the README.md for the problem statement and for the format of the input json file.
 
 ### Pre-requisites
-- Java 17
-- Maven 3
-- Mac or Linux OS
+- Java 17 / Java 8
+- Junit 4
+- Maven 3+
+- Mac or Linux OS with Java configured
 
 
 ### How to run the application
-- `javac App.java` and then `java App <input_file_name.json>`
+- Run from 'src/main/java/com/thoughtworks/App.java' => `javac App.java` and then `java App <input_file_name.json>`
 - OR
-- mvn clean install and then `java -jar target/assignment-1.0-SNAPSHOT.jar <input_file_name.json>`
+- Run from root directory => mvn clean install and then `java -jar target/assignment-1.0-SNAPSHOT.jar <input_file_name.json>`
 - make sure the input json file is in the same directory as the jar file.
 
 
@@ -31,5 +32,21 @@
 
 
 
+### Algorithm
+- The algorithm is as follows:
+    - Sort the reservations based on the end time.
+    - Iterate over the reservations and rooms to see which room can be allocated to the reservation.
+    - The criteria to find the available room is to first check if the roomType is same or not.
+    - If the roomType is same then check if the existing available booking is overlapping with the current reservation or not.
+    - If both of these conditions match then allocate the room to the reservation.
+    - Otherwise move to the next room.
+
+- The complexity for this algorithm is O(n^m) where n is the number of reservations and m is the number of rooms, which can be n^2 in the worst case.
 
 
+### Test cases
+- The test cases are present in the `src/test/java` directory.
+- The test cases are divided into 3 classes
+    - `AppTest` - contains the test cases for the main class App.java
+    - `DefaultRoomAllocatorTest` - contains the test cases for the service class DefaultRoomAllocator.java
+- The input test files are present in the `src/test/resources` directory, the test function names are same as input test files names.
