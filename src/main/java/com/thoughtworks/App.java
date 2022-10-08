@@ -2,16 +2,13 @@ package com.thoughtworks;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.thoughtworks.model.RequestModel;
 import com.thoughtworks.model.ResponseModel;
-import com.thoughtworks.service.RoomAllocator;
+import com.thoughtworks.service.RoomAllocatorTemplate;
 import com.thoughtworks.service.Validation;
 import com.thoughtworks.service.Impl.DefaultRoomAllocator;
 
@@ -32,9 +29,7 @@ public final class App
         RequestModel requestModel = parseFile(args.length>=1 ? args[0] : DEFAULT);
         Validation.validateInput(requestModel);
 
-        Collections.sort(requestModel.getReservations());
-
-        RoomAllocator roomAllocator = new DefaultRoomAllocator();
+        RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
         ResponseModel responseModel = roomAllocator.processReservations(requestModel);
         App.toString(requestModel,responseModel);
     }

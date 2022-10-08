@@ -1,46 +1,25 @@
 package com.thoughtworks.service.Impl;
 
-import java.util.List;
+import java.util.Comparator;
 
-import com.thoughtworks.model.RequestModel;
 import com.thoughtworks.model.Reservation;
-import com.thoughtworks.model.ResponseModel;
 import com.thoughtworks.model.Room;
-import com.thoughtworks.service.RoomAllocator;
+import com.thoughtworks.service.RoomAllocatorTemplate;
 
 /*
  * This class will process the reservations and return the room allocation as per the 
  * required response model.
  */
-public class DefaultRoomAllocator implements RoomAllocator{
-    /*
-     * If the reservation type is same as available room type and the dates are not
-     * overlapping with the existing reservation then the room is booked for that particular
-     * reservation.
-     * @param requestModel object
-     * @return ResponseModel object
-     */
+public class DefaultRoomAllocator extends RoomAllocatorTemplate{
+    
     @Override
-    public ResponseModel processReservations(RequestModel requestModel) {
-        List<Room> rooms = requestModel.getRooms();
-        List<Reservation> reservations = requestModel.getReservations();
-        ResponseModel responseModel = new ResponseModel();
-        
-        for(Reservation reservation : reservations) {
-            rooms.stream().filter(r -> !reservation.isBooked() 
-            && isSameRoomType(reservation, r) 
-            && isRoomAvailable(r, reservation, reservations))
-            .findFirst()
-            .ifPresentOrElse(room -> {
-                room.addReservation(reservation);
-                reservation.setBooked(true);
-                responseModel.addBooking(room.getId(), reservation);
-            },() -> {
-                reservation.setBooked(false);
-            });
-            // .orElseThrow(() -> new RuntimeException("No room available for reservation id: " + reservation.getReservationId())); 
-        }
-        return responseModel;
+    public Comparator<Reservation> getSortingLogic() {
+        return Comparator.comparing(Reservation::getEndDate);
+    }
+
+    @Override
+    public boolean checkRoomEligibility(Room room, Reservation reservation) {
+        return isSameRoomType(reservation, room) && isRoomAvailable(room, reservation);
     }
 
     /*
@@ -50,7 +29,7 @@ public class DefaultRoomAllocator implements RoomAllocator{
      * @param list of reservations 
      * @return boolean
      */
-    private boolean isRoomAvailable(Room room, Reservation currentReservation, List<Reservation> reservations) {
+    private boolean isRoomAvailable(Room room, Reservation currentReservation) {
         int existingReservationLength = room.getReservations().size();
         if (existingReservationLength == 0) {
             return true;
@@ -72,7 +51,7 @@ public class DefaultRoomAllocator implements RoomAllocator{
     private boolean isSameRoomType(Reservation reservation, Room room) {
         return reservation.getRoomType() == room.getRoomType();
     }
-        
+
     /*
      * Method to check if the reservation is overlapping with other reservation dates.
      * @param reservation to be checked

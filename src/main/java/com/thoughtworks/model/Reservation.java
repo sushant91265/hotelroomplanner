@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class Reservation implements Comparable<Reservation> {
+public class Reservation {
     
     private int reservationId;
     private int roomType;
@@ -19,21 +19,4 @@ public class Reservation implements Comparable<Reservation> {
     private LocalDate startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-d")
     private LocalDate endDate;
-
-    @Override
-    public int compareTo(Reservation r2) {
-        if (this.getStartDate().isBefore(r2.getStartDate())) {
-            return -1;
-        } else if (this.getStartDate().isAfter(r2.getStartDate())) {
-            return 1;
-        } else {
-            if (this.getEndDate().isBefore(r2.getEndDate())) {
-                return -1;
-            } else if (this.getEndDate().isAfter(r2.getEndDate())) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    }
  }
