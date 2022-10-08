@@ -25,18 +25,6 @@ import com.thoughtworks.service.Impl.DefaultRoomAllocator;
  */
 public class AppTest 
 {
-    // json parsing issue
-    // empty json file
-    // no file passed
-    // json data not in correct format
-    // no rooms in the input json 
-    // no reservations in the input json
-    // no roomtypes in the input json
-    // extra room with not given roomtype 
-    // no specific type room
-    // reservation type is not available
-    // roomType does not have entry but others have
-
     private static final String RESOURCE = "src/test/resources/";
 
     @Rule
@@ -60,9 +48,12 @@ public class AppTest
         RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
         ResponseModel actual = roomAllocator.processReservations(requestModel);
         Map<Integer, List<Integer>> actualMap = convertToMap(actual);
-        Assert.assertEquals(actualMap, expected);
+        Assert.assertEquals(expected, actualMap);
     }
 
+    /*
+     * Overlapping reservations where 2 reservations are overlapping.
+     */
     @Test
     public void testOverlapScenario()  {
         Map<Integer, List<Integer>> expected = new HashMap<>();
@@ -72,9 +63,13 @@ public class AppTest
         ResponseModel actual = roomAllocator.processReservations(requestModel);
 
         Map<Integer, List<Integer>> actualMap = convertToMap(actual);
-        Assert.assertEquals(actualMap, expected);
+        Assert.assertEquals(expected, actualMap);
     }
 
+    /*
+     * Overlapping reservations where 2 reservations are overlapping but the second reservation is
+     * for less number of days.
+     */
     @Test
     public void testOverlapScenario2()  {
         Map<Integer, List<Integer>> expected = new HashMap<>();
@@ -84,9 +79,13 @@ public class AppTest
         ResponseModel actual = roomAllocator.processReservations(requestModel);
 
         Map<Integer, List<Integer>> actualMap = convertToMap(actual);
-        Assert.assertEquals(actualMap, expected);
+        Assert.assertEquals(expected, actualMap);
     }
 
+    /*
+     * Overlapping reservations where 2 reservations are overlapping but the second reservation's
+     * start date is same as first one. 
+     */
     @Test
     public void testOverlapScenario3()  {
         Map<Integer, List<Integer>> expected = new HashMap<>();
@@ -96,7 +95,7 @@ public class AppTest
         ResponseModel actual = roomAllocator.processReservations(requestModel);
 
         Map<Integer, List<Integer>> actualMap = convertToMap(actual);
-        Assert.assertEquals(actualMap, expected);
+        Assert.assertEquals(expected, actualMap);
     }
 
     @Test
@@ -108,7 +107,7 @@ public class AppTest
         ResponseModel actual = roomAllocator.processReservations(requestModel);
 
         Map<Integer, List<Integer>> actualMap = convertToMap(actual);
-        Assert.assertEquals(actualMap, expected);
+        Assert.assertEquals(expected, actualMap);
     }
  
     @Test
@@ -120,9 +119,25 @@ public class AppTest
         ResponseModel actual = roomAllocator.processReservations(requestModel);
 
         Map<Integer, List<Integer>> actualMap = convertToMap(actual);
-        Assert.assertEquals(actualMap, expected);
+        Assert.assertEquals(expected, actualMap);
     }
 
+    @Test
+    public void testNegativeScenario()  {
+        Map<Integer, List<Integer>> expected = new HashMap<>();
+
+        RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
+        ResponseModel actual = roomAllocator.processReservations(requestModel);
+
+        Map<Integer, List<Integer>> actualMap = convertToMap(actual);
+        Assert.assertEquals(expected, actualMap);
+    }
+
+    /*
+     * Helper method to convert the response model to map
+     * @param responseModel
+     * @return map of room number and list of reservation ids
+     */
     private Map<Integer, List<Integer>> convertToMap(ResponseModel expected) {
         Map<Integer, List<Integer>> expectedMap = new HashMap<>();
         expected.getAllBookings().forEach( (k,v) -> {

@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.thoughtworks.model.RequestModel;
 import com.thoughtworks.model.ResponseModel;
 import com.thoughtworks.service.RoomAllocatorTemplate;
-import com.thoughtworks.service.Validation;
 import com.thoughtworks.service.Impl.DefaultRoomAllocator;
+import com.thoughtworks.util.Validation;
 
 /*
  * This is the main class which will be executed.
@@ -31,6 +31,7 @@ public final class App
 
         RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
         ResponseModel responseModel = roomAllocator.processReservations(requestModel);
+        // print the output on console
         App.toString(requestModel,responseModel);
     }
 

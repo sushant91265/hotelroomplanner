@@ -10,7 +10,10 @@ import com.thoughtworks.model.ResponseModel;
 import com.thoughtworks.model.Room;
 
 /*
- * This is the interface for the room allocator service.
+ * This abstract class defines the template for the room allocation process.
+ * It has the following abstract methods:
+ * 1. getSortingLogic() - This method will return the sorting logic for the reservations.
+ * 2. checkRoomEligibility() - This method will check if the room is eligible for the reservation.
  */
 public abstract class RoomAllocatorTemplate {
 
@@ -19,9 +22,9 @@ public abstract class RoomAllocatorTemplate {
     public abstract boolean checkRoomEligibility(Room room, Reservation reservation);        
 
     /*
-     * If the reservation type is same as available room type and the dates are not
-     * overlapping with the existing reservation then the room is booked for that particular
-     * reservation.
+     * Sort the reservations based on sorting criteria and if the reservation type is same 
+     * as available room type and the dates are not overlapping with the existing reservation
+     * then the room is booked for that particular reservation.
      * @param requestModel object
      * @return ResponseModel object
      */
