@@ -10,8 +10,7 @@
 ### How to run the application
 - Run from 'src/main/java/com/thoughtworks/App.java' => `javac App.java` and then `java App <input_file_name.json>`
 - OR
-- Run from root directory => mvn clean install and then `java -jar target/assignment-1.0-SNAPSHOT.jar <input_file_name.json>`
-- make sure the input json file is in the same directory as the jar file.
+- Run from root directory => `mvn clean install` and then `java -jar target/optimizer-1.0.jar <input_file_name.json>`
 
 
 ### Assumptions
@@ -42,6 +41,7 @@
     - Otherwise move to the next room.
 
 - The complexity for this algorithm is O(n^m) where n is the number of reservations and m is the number of rooms, which can be n^2 in the worst case.
+
 
 
 ### Test cases

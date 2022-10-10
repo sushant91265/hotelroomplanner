@@ -23,6 +23,7 @@ public class Room {
      * Add a reservation to the room.
      * @param reservation to be added 
      */
+    @JsonIgnore
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
     }
@@ -31,7 +32,8 @@ public class Room {
      * Get the latest reservation for the room.
      * @return reservation object
      */
+    @JsonIgnore
     public Reservation getLatestReservation() {
-        return reservations.get(reservations.size() - 1);
+        return reservations.size() > 0 ? reservations.get(reservations.size() - 1) : null;
     }
 }

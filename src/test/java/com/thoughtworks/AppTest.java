@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -131,12 +132,68 @@ public class AppTest
     }
 
     /*
-     * No room available for all the reservations. 
+     * No room available for all the reservations because of roomType. 
      */
     @Test
     public void testNegativeScenario()  {
         Map<Integer, List<Integer>> expected = new HashMap<>();
 
+        RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
+        ResponseModel actual = roomAllocator.processReservations(requestModel);
+
+        Map<Integer, List<Integer>> actualMap = convertToMap(actual);
+        Assert.assertEquals(expected, actualMap);
+    }
+
+    /*
+     * Single day reservations 
+     */
+    @Test
+    public void testOnlyOneDayReservation()  {
+        Map<Integer, List<Integer>> expected = new HashMap<>();
+        expected.put(1, Arrays.asList(1,2));
+        RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
+        ResponseModel actual = roomAllocator.processReservations(requestModel);
+
+        Map<Integer, List<Integer>> actualMap = convertToMap(actual);
+        Assert.assertEquals(expected, actualMap);
+    }
+
+    /*
+     * Month long reservations but with partial overlap.
+     */
+    @Test
+    public void testMonthLongReservation()  {
+        Map<Integer, List<Integer>> expected = new HashMap<>();
+        expected.put(1, Arrays.asList(2));
+        RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
+        ResponseModel actual = roomAllocator.processReservations(requestModel);
+
+        Map<Integer, List<Integer>> actualMap = convertToMap(actual);
+        Assert.assertEquals(expected, actualMap);
+    }
+
+    /*
+     * Year long reservations but with partial overlap.
+     */
+    @Test
+    public void testYearLongReservation()  {
+        Map<Integer, List<Integer>> expected = new HashMap<>();
+        expected.put(1, Arrays.asList(1));
+        RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
+        ResponseModel actual = roomAllocator.processReservations(requestModel);
+
+        Map<Integer, List<Integer>> actualMap = convertToMap(actual);
+        Assert.assertEquals(expected, actualMap);
+    }
+
+    @Test
+    public void testLargeReservations() { 
+        Map<Integer, List<Integer>> expected = new HashMap<>();
+        List<Integer> list = IntStream.rangeClosed(0, 299)
+            .boxed().collect(Collectors.toList());
+
+        expected.put(1, list);
         RoomAllocatorTemplate roomAllocator = new DefaultRoomAllocator();
         ResponseModel actual = roomAllocator.processReservations(requestModel);
 

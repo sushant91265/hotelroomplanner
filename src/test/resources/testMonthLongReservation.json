@@ -1,0 +1,12 @@
+{
+    "roomTypes": [1],
+    "rooms": [{"id": 1, "roomType": 1}],
+    "reservations": [{"reservationId": 1,
+      "roomType": 1,
+      "startDate": "2019-07-10",
+      "endDate": "2019-08-11"},
+      {"reservationId": 2,
+        "roomType": 1,
+        "startDate": "2019-05-11",
+        "endDate": "2019-07-12"}]
+  }
